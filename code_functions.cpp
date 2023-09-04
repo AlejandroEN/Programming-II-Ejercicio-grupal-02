@@ -1,26 +1,19 @@
 #include "code_functions.hpp"
-#include <cctype>
 
 string generateCode(int codeSize)
 {
     string code;
-    const int upperLimit = static_cast<int>(characters.length());
 
     for (int _ = 0; _ < codeSize; ++_)
     {
-        int position = random(0, upperLimit - 1);
-        char character = characters[position];
-
-        if (isalpha(character))
-            character = random(0, 1) ? tolower((character)) : characters[position]; // NOLINT(*-narrowing-conversions)
-
+        char character = randomLowering(getRandomCharacter(CHARACTERS));
         code += character;
     }
 
     return code;
 }
 
-string convertToBinary(string code)
+string convertToBinary(const string &code)
 {
     string binaryCode;
     char binaryDigit;
@@ -29,13 +22,42 @@ string convertToBinary(string code)
     {
         if (isalpha(i))
         {
-
+            char letter = toupper(i); // NOLINT(*-narrowing-conversions)
+            binaryDigit = ALPHABET.find(letter) % 2 == 0 ? '1' : '0';
         }
         else
         {
-
+            int number = static_cast<unsigned char>(i);
+            binaryDigit = number % 2 ? '0' : '1';
         }
+
+        binaryCode += binaryDigit;
     }
 
     return binaryCode;
+}
+
+string getKey(const string &binaryCode)
+{
+    string key;
+
+    for (char i : binaryCode)
+    {
+        if (i == '0')
+        {
+            char firstLetter = static_cast<char>(randomLowering(getRandomCharacter(ALPHABET)));
+            char secondLetter = static_cast<char>(randomLowering(getRandomCharacter(ALPHABET)));
+            key += firstLetter;
+            key += secondLetter;
+        }
+        else
+        {
+            char firstDigit = static_cast<char>(random(1, 9) + '0');
+            char secondDigit = static_cast<char>(random(1, 9) + '0');
+            key += firstDigit;
+            key += secondDigit;
+        }
+    }
+
+    return key;
 }

@@ -1,5 +1,6 @@
 #include "utilities.hpp"
 
-const string characters = alphabet + firstNineNumbers;
+const string CHARACTERS = ALPHABET + FIRST_NINE_NUMBERS;
 string generateCode(int codeSize);
-string convertToBinary(string code);
+string convertToBinary(const string& code);
+string getKey(const string &binaryCode);
